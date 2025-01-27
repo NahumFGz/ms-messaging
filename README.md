@@ -20,3 +20,6 @@ alembic upgrade head
 uvicorn app.main:app --reload
 uvicorn app.main:app --reload --port 8000
 uvicorn app.websocket.websocket:app --host 0.0.0.0 --port 8001 --reload
+
+uvicorn app.main_api:app_api --port 8000 --reload
+uvicorn app.main_websocket:app_websocket --port 8001 --reload

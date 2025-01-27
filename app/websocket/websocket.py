@@ -1,24 +1,21 @@
 import asyncio  # Para simular la demora
 import uuid
 
-from fastapi import Depends, FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import Depends, WebSocket, WebSocketDisconnect
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import create_chat, create_message
 from app.db import get_session
 from app.schemas import MessageCreate
 
-app = FastAPI()
-
 
 # Simula una función que conecta a otra API y devuelve una respuesta
 async def connect_to_external_api(chat_uuid: str, message: str) -> dict:
-    # Simula un retraso de 1 segundo
-    await asyncio.sleep(1)
+    await asyncio.sleep(1)  # Simula un retraso de 1 segundo
     return {"chat_uuid": chat_uuid, "message": f"{message} xxx"}
 
 
-@app.websocket("/chat")
+# Endpoint de WebSocket
 async def websocket_endpoint(websocket: WebSocket, session: AsyncSession = Depends(get_session)):
     await websocket.accept()
     try:
