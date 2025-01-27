@@ -16,7 +16,7 @@ class ChatBase(BaseModel):
 
 
 class ChatCreate(ChatBase):
-    pass  # No incluye created_at ni updated_at
+    pass
 
 
 class ChatRead(ChatBase):
@@ -37,13 +37,13 @@ class ChatUpdate(BaseModel):
 
 
 class MessageBase(BaseModel):
-    chat_id: int
+    chat_uuid: str
     sender_type: SenderTypeEnum
     content: str
 
 
 class MessageCreate(MessageBase):
-    pass  # No incluye timestamp
+    pass
 
 
 class MessageRead(MessageBase):
@@ -55,8 +55,8 @@ class MessageRead(MessageBase):
 
 
 class MessageUpdate(BaseModel):
-    chat_id: Optional[int] = None
-    sender_type: Optional[str] = None
+    chat_uuid: Optional[str] = None
+    sender_type: Optional[SenderTypeEnum] = None
     content: Optional[str] = None
 
     class Config:

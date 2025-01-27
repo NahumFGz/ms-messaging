@@ -28,7 +28,7 @@ class Message(Base):
     __tablename__ = "messages"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    chat_id = Column(Integer, ForeignKey("chats.id", ondelete="CASCADE"), nullable=False)
+    chat_uuid = Column(String, ForeignKey("chats.uuid", ondelete="CASCADE"), nullable=False)
     sender_type = Column(Enum(SenderTypeEnum), nullable=False)
     content = Column(String, nullable=False)
     timestamp = Column(DateTime(timezone=True), server_default=func.now())

@@ -44,14 +44,8 @@ async def update_chat(uuid: str, chat_data: dict, session: AsyncSession):
     return chat
 
 
-async def get_messages_by_chat_uuid(uuid: str, session: AsyncSession):
-    # Obtener el chat por uuid
-    chat = await get_chat_by_uuid(uuid, session)
-    if not chat:
-        return None
-
-    # Consultar los mensajes asociados al chat
-    result = await session.execute(select(Message).where(Message.chat_id == chat.id))
+async def get_messages_by_chat_uuid(chat_uuid: str, session: AsyncSession):
+    result = await session.execute(select(Message).where(Message.chat_uuid == chat_uuid))
     return result.scalars().all()
 
 

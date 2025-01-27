@@ -20,12 +20,12 @@ async def read_messages(session: AsyncSession = Depends(get_session)):
     return await get_all_messages(session)
 
 
-@router.get("/{message_id}", response_model=MessageRead)
-async def read_message(message_id: int, session: AsyncSession = Depends(get_session)):
-    message = await get_message_by_id(message_id, session)
-    if not message:
-        raise HTTPException(status_code=404, detail="Message not found")
-    return message
+@router.get("/{chat_uuid}/", response_model=list[MessageRead])
+async def read_messages_by_chat_uuid(chat_uuid: str, session: AsyncSession = Depends(get_session)):
+    messages = await get_messages_by_chat_uuid(chat_uuid, session)
+    if not messages:
+        raise HTTPException(status_code=404, detail="No messages found for chat UUID")
+    return messages
 
 
 @router.post("/", response_model=MessageRead)
@@ -49,11 +49,3 @@ async def update_message_details(
     if not message:
         raise HTTPException(status_code=404, detail="Message not found")
     return message
-
-
-@router.get("/{uuid}/", response_model=list[MessageRead])
-async def read_messages_by_chat_uuid(uuid: str, session: AsyncSession = Depends(get_session)):
-    messages = await get_messages_by_chat_uuid(uuid, session)
-    if messages is None:
-        raise HTTPException(status_code=404, detail="Chat not found or no messages available")
-    return messages
