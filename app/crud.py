@@ -33,6 +33,17 @@ async def delete_chat_by_uuid(uuid: str, session: AsyncSession):
     return {"message": "Chat deleted successfully"}
 
 
+async def update_chat(uuid: str, chat_data: dict, session: AsyncSession):
+    chat = await get_chat_by_uuid(uuid, session)
+    if not chat:
+        return None
+    for key, value in chat_data.items():
+        setattr(chat, key, value)
+    await session.commit()
+    await session.refresh(chat)
+    return chat
+
+
 # CRUD para Message
 async def get_all_messages(session: AsyncSession):
     result = await session.execute(select(Message))
@@ -59,3 +70,14 @@ async def delete_message(message_id: int, session: AsyncSession):
     await session.delete(message)
     await session.commit()
     return {"message": "Message deleted successfully"}
+
+
+async def update_message(message_id: int, message_data: dict, session: AsyncSession):
+    message = await get_message_by_id(message_id, session)
+    if not message:
+        return None
+    for key, value in message_data.items():
+        setattr(message, key, value)
+    await session.commit()
+    await session.refresh(message)
+    return message

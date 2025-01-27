@@ -22,6 +22,13 @@ class ChatRead(ChatBase):
         from_attributes = True
 
 
+class ChatUpdate(BaseModel):
+    user_id: Optional[int] = None
+
+    class Config:
+        from_attributes = True
+
+
 class MessageBase(BaseModel):
     chat_id: int
     sender_type: str
@@ -35,6 +42,15 @@ class MessageCreate(MessageBase):
 class MessageRead(MessageBase):
     id: int
     timestamp: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class MessageUpdate(BaseModel):
+    chat_id: Optional[int] = None
+    sender_type: Optional[str] = None
+    content: Optional[str] = None
 
     class Config:
         from_attributes = True
