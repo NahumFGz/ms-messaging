@@ -29,7 +29,7 @@ async def read_chat(uuid: str, session: AsyncSession = Depends(get_session)):
 
 @router.post("/", response_model=ChatRead)
 async def create_new_chat(chat: ChatCreate, session: AsyncSession = Depends(get_session)):
-    return await create_chat(chat.dict(), session)
+    return await create_chat(chat.model_dump(), session)
 
 
 @router.delete("/{uuid}")
@@ -42,7 +42,7 @@ async def remove_chat(uuid: str, session: AsyncSession = Depends(get_session)):
 
 @router.patch("/{uuid}", response_model=ChatRead)
 async def update_chat_details(uuid: str, chat_update: ChatUpdate, session: AsyncSession = Depends(get_session)):
-    chat = await update_chat(uuid, chat_update.dict(exclude_unset=True), session)
+    chat = await update_chat(uuid, chat_update.model_dump(exclude_unset=True), session)
     if not chat:
         raise HTTPException(status_code=404, detail="Chat not found")
     return chat

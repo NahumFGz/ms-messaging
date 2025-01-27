@@ -30,7 +30,7 @@ async def read_message(message_id: int, session: AsyncSession = Depends(get_sess
 
 @router.post("/", response_model=MessageRead)
 async def create_new_message(message: MessageCreate, session: AsyncSession = Depends(get_session)):
-    return await create_message(message.dict(), session)
+    return await create_message(message.model_dump(), session)
 
 
 @router.delete("/{message_id}")
@@ -45,7 +45,7 @@ async def remove_message(message_id: int, session: AsyncSession = Depends(get_se
 async def update_message_details(
     message_id: int, message_update: MessageUpdate, session: AsyncSession = Depends(get_session)
 ):
-    message = await update_message(message_id, message_update.dict(exclude_unset=True), session)
+    message = await update_message(message_id, message_update.model_dump(exclude_unset=True), session)
     if not message:
         raise HTTPException(status_code=404, detail="Message not found")
     return message
