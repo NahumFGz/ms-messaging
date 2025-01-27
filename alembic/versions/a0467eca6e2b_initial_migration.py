@@ -1,8 +1,8 @@
 """Initial migration
 
-Revision ID: 8e78546b6b70
+Revision ID: a0467eca6e2b
 Revises: 
-Create Date: 2025-01-26 21:09:37.989145
+Create Date: 2025-01-27 10:23:40.473237
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '8e78546b6b70'
+revision: str = 'a0467eca6e2b'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -32,7 +32,7 @@ def upgrade() -> None:
     op.create_table('messages',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('chat_id', sa.Integer(), nullable=False),
-    sa.Column('sender_type', sa.String(), nullable=False),
+    sa.Column('sender_type', sa.Enum('SYSTEM', 'UTILS', 'TOOL', name='sendertypeenum'), nullable=False),
     sa.Column('content', sa.String(), nullable=False),
     sa.Column('timestamp', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.ForeignKeyConstraint(['chat_id'], ['chats.id'], ondelete='CASCADE'),

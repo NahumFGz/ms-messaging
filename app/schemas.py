@@ -1,7 +1,14 @@
 from datetime import datetime
+from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel
+
+
+class SenderTypeEnum(str, Enum):
+    S = "S"  # System
+    U = "U"  # Utils
+    T = "T"  # Tool
 
 
 class ChatBase(BaseModel):
@@ -31,7 +38,7 @@ class ChatUpdate(BaseModel):
 
 class MessageBase(BaseModel):
     chat_id: int
-    sender_type: str
+    sender_type: SenderTypeEnum
     content: str
 
 
