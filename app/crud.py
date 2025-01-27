@@ -5,14 +5,14 @@ from sqlalchemy.future import select
 from app.models import Chat, Message
 
 
-# CRUD para Chat
+# CRUD para Chat basado en uuid
 async def get_all_chats(session: AsyncSession):
     result = await session.execute(select(Chat))
     return result.scalars().all()
 
 
-async def get_chat_by_id(chat_id: int, session: AsyncSession):
-    result = await session.execute(select(Chat).where(Chat.id == chat_id))
+async def get_chat_by_uuid(uuid: str, session: AsyncSession):
+    result = await session.execute(select(Chat).where(Chat.uuid == uuid))
     return result.scalar_one_or_none()
 
 
@@ -24,10 +24,10 @@ async def create_chat(chat_data: dict, session: AsyncSession):
     return new_chat
 
 
-async def delete_chat(chat_id: int, session: AsyncSession):
-    chat = await get_chat_by_id(chat_id, session)
+async def delete_chat_by_uuid(uuid: str, session: AsyncSession):
+    chat = await get_chat_by_uuid(uuid, session)
     if not chat:
-        raise NoResultFound(f"Chat with id {chat_id} not found.")
+        raise NoResultFound(f"Chat with uuid {uuid} not found.")
     await session.delete(chat)
     await session.commit()
     return {"message": "Chat deleted successfully"}
