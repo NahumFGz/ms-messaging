@@ -5,12 +5,6 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class SenderTypeEnum(str, Enum):
-    S = "S"  # System
-    U = "U"  # Utils
-    T = "T"  # Tool
-
-
 class ChatBase(BaseModel):
     user_id: int
 
@@ -38,7 +32,7 @@ class ChatUpdate(BaseModel):
 
 class MessageBase(BaseModel):
     chat_uuid: str
-    sender_type: SenderTypeEnum
+    sender_type: str
     content: str
 
 
@@ -56,7 +50,7 @@ class MessageRead(MessageBase):
 
 class MessageUpdate(BaseModel):
     chat_uuid: Optional[str] = None
-    sender_type: Optional[SenderTypeEnum] = None
+    sender_type: Optional[str] = None
     content: Optional[str] = None
 
     class Config:

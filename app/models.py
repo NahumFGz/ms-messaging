@@ -1,4 +1,3 @@
-import enum
 import uuid
 
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String
@@ -6,12 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 
 Base = declarative_base()
-
-
-class SenderTypeEnum(enum.Enum):
-    SYSTEM = "S"
-    UTILS = "U"
-    TOOL = "T"
 
 
 class Chat(Base):
@@ -29,6 +22,6 @@ class Message(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     chat_uuid = Column(String, ForeignKey("chats.uuid", ondelete="CASCADE"), nullable=False)
-    sender_type = Column(Enum(SenderTypeEnum), nullable=False)
+    sender_type = Column(String, nullable=False)
     content = Column(String, nullable=False)
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
