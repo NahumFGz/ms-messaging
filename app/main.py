@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 
-from app.routers import chats, messages
+from app.api import chats, messages
 
 app = FastAPI()
 
-# Incluir los routers directamente
+# Incluir las APIs directamente
 app.include_router(chats.router, prefix="/chats", tags=["Chats"])
 app.include_router(messages.router, prefix="/messages", tags=["Messages"])
 
