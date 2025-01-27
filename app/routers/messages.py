@@ -6,6 +6,7 @@ from app.crud import (
     delete_message,
     get_all_messages,
     get_message_by_id,
+    get_messages_by_chat_uuid,
     update_message,
 )
 from app.db import get_session
@@ -48,3 +49,11 @@ async def update_message_details(
     if not message:
         raise HTTPException(status_code=404, detail="Message not found")
     return message
+
+
+@router.get("/{uuid}/", response_model=list[MessageRead])
+async def read_messages_by_chat_uuid(uuid: str, session: AsyncSession = Depends(get_session)):
+    messages = await get_messages_by_chat_uuid(uuid, session)
+    if messages is None:
+        raise HTTPException(status_code=404, detail="Chat not found or no messages available")
+    return messages
