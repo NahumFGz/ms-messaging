@@ -1,0 +1,8 @@
+# Ignorar entornos virtuales que comiencen con "venv_"
+venv_*/
+
+# Ignorar __pycache__ en cualquier ubicación dentro del proyecto
+**/__pycache__/
+
+# Ignorar .pytest_cache en cualquier ubicación dentro del proyecto
+**/.pytest_cache/
